@@ -4,7 +4,7 @@
 #
 Name     : pydot_ng
 Version  : 1.0.0
-Release  : 8
+Release  : 9
 URL      : http://pypi.debian.net/pydot_ng/pydot_ng-1.0.0.tar.gz
 Source0  : http://pypi.debian.net/pydot_ng/pydot_ng-1.0.0.tar.gz
 Summary  : Python interface to Graphviz's Dot
