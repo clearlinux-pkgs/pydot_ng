@@ -4,7 +4,7 @@
 #
 Name     : pydot_ng
 Version  : 2.0.0
-Release  : 23
+Release  : 24
 URL      : https://files.pythonhosted.org/packages/60/7a/d4022ba8b47d8f5e4c58b285e66eb233745f46f07bd7e6569a695fc91e7f/pydot_ng-2.0.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/60/7a/d4022ba8b47d8f5e4c58b285e66eb233745f46f07bd7e6569a695fc91e7f/pydot_ng-2.0.0.tar.gz
 Summary  : Python interface to Graphviz's Dot
@@ -25,12 +25,44 @@ BuildRequires : tox
 BuildRequires : virtualenv
 
 %description
+pydot - Python interface to Graphviz's Dot language
 ---------------------------------------------------
-        Ero Carrera (c) 2004-2007
-        
-        ero@dkbza.org
-        
-        This code is distributed under the MIT license.
+Ero Carrera (c) 2004-2007
+
+ero@dkbza.org
+
+This code is distributed under the MIT license.
+
+.. image:: https://travis-ci.org/pydot/pydot-ng.svg?branch=master
+    :target: https://travis-ci.org/pydot/pydot-ng
+
+
+Requirements:
+=============
+
+pyparsing: pydot requires the pyparsing module in order to be
+	able to load DOT files.
+
+GraphViz:  is needed in order to render the graphs into any of
+	the plethora of output formats supported.
+
+Installation:
+=============
+
+Should suffice with doing:
+
+ python setup.py install
+
+Needless to say, no installation is needed just to use the module. A mere:
+
+ import pydot_ng
+
+should do it, provided that the directory containing the modules is on Python
+module search path.
+
+This library is API compatible with original pydot so you can use it like this:
+
+ import pydot_ng as pydot
 
 %package license
 Summary: license components for the pydot_ng package.
@@ -53,6 +85,7 @@ python components for the pydot_ng package.
 Summary: python3 components for the pydot_ng package.
 Group: Default
 Requires: python3-core
+Provides: pypi(pydot-ng)
 
 %description python3
 python3 components for the pydot_ng package.
@@ -60,13 +93,15 @@ python3 components for the pydot_ng package.
 
 %prep
 %setup -q -n pydot_ng-2.0.0
+cd %{_builddir}/pydot_ng-2.0.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1564943811
+export SOURCE_DATE_EPOCH=1583206129
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -79,7 +114,7 @@ python3 setup.py build
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pydot_ng
-cp LICENSE %{buildroot}/usr/share/package-licenses/pydot_ng/LICENSE
+cp %{_builddir}/pydot_ng-2.0.0/LICENSE %{buildroot}/usr/share/package-licenses/pydot_ng/e38c1f7359ea268ce9ecd751f3fd9787fb2d40db
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -90,7 +125,7 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pydot_ng/LICENSE
+/usr/share/package-licenses/pydot_ng/e38c1f7359ea268ce9ecd751f3fd9787fb2d40db
 
 %files python
 %defattr(-,root,root,-)
